@@ -22,7 +22,7 @@ Vagrant.configure(2) do |config|
 	# Create a forwarded port mapping which allows access to a specific port
 	# within the machine from a port on the host machine. In the example below,
 	# accessing "localhost:8080" will access port 80 on the guest machine.
-	config.vm.network "forwarded_port", guest: 443, host: 8080
+	#config.vm.network "forwarded_port", guest: 443, host: 8080
 
 	# Create a private network, which allows host-only access to the machine
 	# using a specific IP.
@@ -67,6 +67,31 @@ Vagrant.configure(2) do |config|
 	config.vm.provision "shell", inline: <<-SHELL
 		sudo apt-get update
 		sudo apt-get upgrade -y
-		sudo apt-get install -y git emacs24-nox htop sysstat ufw fail2ban unattended-upgrades unzip
+		sudo apt-get install -y make git emacs24-nox htop sysstat ufw fail2ban unattended-upgrades python-setuptools unzip
+
+		if [ ! -d "/usr/local/smoldata/flamework" ]
+		then
+			mkdir -p /usr/local/smoldata/flamework/templates_c
+			chown www-data:www-data /usr/local/smoldata/flamework/templates_c
+			sudo chmod -R g+ws /usr/local/smoldata/flamework/templates_c
+		fi
+
+		if [ ! -d "/usr/local/smoldata/thingmonger/www/templates_c" ]
+		then
+			ln -s /usr/local/smoldata/flamework/templates_c /usr/local/smoldata/thingmonger/www/templates_c
+		fi
+
+		echo "+---------------------------------------------------------+"
+		echo "|                                                         |"
+		echo "|   1. Setup Thingmonger:                                 |"
+		echo "|          vagrant ssh                                    |"
+		echo "|          cd /usr/local/smoldata/thingmonger             |"
+		echo "|          make setup                                     |"
+		echo "|          (See README for configuration help)            |"
+		echo "|                                                         |"
+		echo "|   2. Load it up in a browser:                           |"
+		echo "|          https://dev.thingmonger.org/                   |"
+		echo "|                                                         |"
+		echo "+---------------------------------------------------------+"
 	SHELL
 end
