@@ -23,12 +23,12 @@ cd /usr/local/smoldata/thingmonger
 make setup
 ```
 
-You may be prompted with some configuration questions:
+You will be prompted with some configuration questions:
 
 * Accept the defaults for unattended upgrades
-* Choose a root MySQL password (you'll need to remember this for later)
 * Choose a password for your Certificate Authority (you will be prompted to enter it again)
-* Edit `/usr/local/smoldata/thingmonger/www/include/secrets.php` and insert your MySQL password into the empty configs
+* Choose a root MySQL password
+* Enter your root MySQL password when prompted
 
 ## Load it up in a browser
 
