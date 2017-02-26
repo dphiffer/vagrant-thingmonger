@@ -25,10 +25,9 @@ make setup
 
 You will be prompted with some configuration questions:
 
-* Accept the defaults for unattended upgrades
-* Choose a password for your Certificate Authority (you will be prompted to enter it three more times)
-* Choose a root MySQL password (you will be prompted to enter it later)
+* Choose 'Yes' when prompted: Automatically download and install stable updates?
+* Choose a root MySQL password (you will be prompted to enter it again)
 
 ## Load it up in a browser
 
-If everything goes as planned, you should be able to load up https://localhost:4700/ in your browser.
+If everything goes as planned, you should be able to load up http://localhost:4700/ in your browser.
