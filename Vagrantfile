@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
 
 	# Every Vagrant development environment requires a box. You can search for
 	# boxes at https://atlas.hashicorp.com/search.
-	config.vm.box = "ubuntu/xenial64"
+	config.vm.box = "ubuntu/trusty64"
 
 	# Disable automatic box update checking. If you disable this, then
 	# boxes will only be checked for updates when the user runs
@@ -22,7 +22,7 @@ Vagrant.configure(2) do |config|
 	# Create a forwarded port mapping which allows access to a specific port
 	# within the machine from a port on the host machine. In the example below,
 	# accessing "localhost:8080" will access port 80 on the guest machine.
-	config.vm.network "forwarded_port", guest: 443, host: 4700
+	config.vm.network "forwarded_port", guest: 80, host: 4700
 
 	# Create a private network, which allows host-only access to the machine
 	# using a specific IP.
@@ -72,13 +72,25 @@ Vagrant.configure(2) do |config|
 		if [ ! -d "/usr/local/smoldata/flamework" ]
 		then
 			mkdir -p /usr/local/smoldata/flamework/templates_c
-			chown www-data:www-data /usr/local/smoldata/flamework/templates_c
-			sudo chmod -R g+ws /usr/local/smoldata/flamework/templates_c
+			chgrp -R www-data /usr/local/smoldata/flamework/templates_c
+			chmod -R g+ws /usr/local/smoldata/flamework/templates_c
+		fi
+		
+		if [ ! -d "/usr/local/smoldata/data" ]
+		then
+			mkdir -p /usr/local/smoldata/data/media
+			chgrp -R www-data /usr/local/smoldata/data
+			chmod -R g+ws /usr/local/smoldata/data
 		fi
 
 		if [ ! -d "/usr/local/smoldata/thingmonger/www/templates_c" ]
 		then
 			ln -s /usr/local/smoldata/flamework/templates_c /usr/local/smoldata/thingmonger/www/templates_c
+		fi
+
+		if [ ! -d "/usr/local/smoldata/thingmonger/www/media" ]
+		then
+			ln -s /usr/local/smoldata/flamework/data/media /usr/local/smoldata/thingmonger/www/media
 		fi
 
 		echo "+---------------------------------------------------------+"
@@ -90,7 +102,7 @@ Vagrant.configure(2) do |config|
 		echo "|          (See README for configuration help)            |"
 		echo "|                                                         |"
 		echo "|   2. Load it up in a browser:                           |"
-		echo "|          https://localhost:4700/                        |"
+		echo "|          http://localhost:4700/                         |"
 		echo "|                                                         |"
 		echo "+---------------------------------------------------------+"
 	SHELL
